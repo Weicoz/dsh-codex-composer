@@ -1,0 +1,24 @@
+{
+  "name": "@dsh-external/dsh-codex-composer",
+  "version": "0.0.1",
+  "description": "Codex 风格输入框增强插件:保留官方输入框,叠加 Ctrl+J 换行、方向键历史(带发送时间)、Ctrl+C 清空存历史、设置开关",
+  "private": true,
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/types/index.d.ts",
+  "files": ["lib"],
+  "license": "BSD-3-Clause",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.0-rc <5",
+    "@deepseek-ai/dsh-settings": ">=0.0.1-rc <2",
+    "@deepseek-ai/dsh-client-runtime": ">=0.0.1-rc <2",
+    "@deepseek-ai/dsh-client-ui-conversation": ">=0.0.1-rc <2",
+    "@deepseek-ai/dsh-client-ui-settings": ">=0.0.1-rc <2",
+    "@deepseek-ai/schemastery": "^3.18.0",
+    "react": "^18.0.0"
+  },
+  "devDependencies": { "@types/node": "^24.13.3", "typescript": "^5.9.0", "tsdown": "^0.22.14" },
+  "scripts": { "build": "bash scripts/build.sh", "typecheck": "tsc -p tsconfig.json --noEmit", "build:client": "tsdown" },
+  "exports": { ".": { "types": "./lib/types/index.d.ts", "default": "./lib/index.js" }, "./client": { "types": "./lib/types/client/index.d.ts", "default": "./lib/client.js" }, "./package.json": "./package.json" },
+  "dsh": { "client": { "inject": ["@deepseek-ai/dsh-client-runtime", "@deepseek-ai/dsh-client-ui-conversation", "@deepseek-ai/dsh-client-ui-settings"], "platform": "web" } }
+}
