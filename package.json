@@ -2,7 +2,6 @@
   "name": "@dsh-external/dsh-codex-composer",
   "version": "0.0.1",
   "description": "Codex 风格输入框增强插件:保留官方输入框,叠加 Ctrl+J 换行、方向键历史(带发送时间)、Ctrl+C 清空存历史、设置开关",
-  "private": true,
   "type": "module",
   "main": "./lib/index.js",
   "types": "./lib/types/index.d.ts",
