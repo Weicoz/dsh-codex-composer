@@ -5,8 +5,11 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-DSH_ROOT="${DSH_CHECKOUT:-/Users/weicoz/.local/lib/node_modules/@deepseek-ai/dsh}"
+DSH_ROOT="${DSH_ROOT:-/Users/weicoz/.local/lib/node_modules/@deepseek-ai/dsh}"
 DSH_NODE_MODULES="$DSH_ROOT/node_modules"
+if [ ! -d "$DSH_NODE_MODULES/@deepseek-ai" ] && [ -d "$DSH_ROOT/node_modules/.pnpm/node_modules/@deepseek-ai" ]; then
+  DSH_NODE_MODULES="$DSH_ROOT/node_modules/.pnpm/node_modules"
+fi
 if [ ! -d "$DSH_NODE_MODULES/@deepseek-ai" ]; then
   echo "build: cannot locate DSH runtime dependencies under $DSH_NODE_MODULES" >&2
   exit 1
@@ -24,6 +27,12 @@ fi
 link_package() {
   local package="$1"
   local target="$DSH_NODE_MODULES/$package"
+  if [ "$package" = "@deepseek-ai/dsh-api-remotes" ] && [ -n "${DSH_CHECKOUT:-}" ]; then
+    target="$DSH_CHECKOUT/packages/api/remotes"
+  fi
+  if [ ! -e "$target" ] && [ -e "$DSH_ROOT/node_modules/.pnpm/node_modules/$package" ]; then
+    target="$DSH_ROOT/node_modules/.pnpm/node_modules/$package"
+  fi
   if [ ! -e "$target" ]; then
     echo "build: missing DSH dependency $package" >&2
     exit 1
@@ -34,7 +43,7 @@ link_package() {
 }
 
 mkdir -p node_modules/@deepseek-ai node_modules/@types node_modules/.bin
-for package in @deepseek-ai/cordis @deepseek-ai/schemastery @deepseek-ai/dsh-settings @deepseek-ai/dsh-client-runtime @deepseek-ai/dsh-client-ui-conversation @deepseek-ai/dsh-client-ui-settings react @types/node; do
+for package in @deepseek-ai/cordis @deepseek-ai/schemastery @deepseek-ai/dsh-settings @deepseek-ai/dsh-api-remotes @deepseek-ai/dsh-client-runtime @deepseek-ai/dsh-client-ui-conversation @deepseek-ai/dsh-client-ui-settings react @types/node; do
   link_package "$package"
 done
 

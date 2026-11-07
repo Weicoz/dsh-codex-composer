@@ -11,5 +11,6 @@ export function apply(ctx: Context): void {
   ctx.settings.register(settingsNamespace('dsh-codex-composer'), z.object({
     enabled: z.boolean().default(true),
     archiveShortcut: z.string().default('Ctrl+Shift+K'),
+    skillPicker: z.boolean().default(true),
   }))
 }

@@ -1,0 +1,4 @@
+# DSH 0.1.3+ bundle layer: host registers settings, client metadata loads UI half.
+- insert:
+    - id: dsh-codex-composer
+      name: '@dsh-external/dsh-codex-composer'
